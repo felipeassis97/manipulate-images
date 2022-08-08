@@ -3,7 +3,6 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manipulate_images/profile/controller/profile_controller.dart';
 import 'package:manipulate_images/profile/view/media_option_modal.dart';
@@ -92,37 +91,6 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                     ),
-
-                    // selectedImage != null
-                    //     ? Container(
-                    //         width: 160.w,
-                    //         height: 160.h,
-                    //         decoration: BoxDecoration(
-                    //           boxShadow: [
-                    //             BoxShadow(
-                    //               color: Colors.grey.withOpacity(0.5),
-                    //               spreadRadius: 5,
-                    //               blurRadius: 7,
-                    //               offset: const Offset(
-                    //                   0, 3), // changes position of shadow
-                    //             ),
-                    //           ],
-                    //           shape: BoxShape.circle,
-                    //           image: DecorationImage(
-                    //             fit: BoxFit.cover,
-                    //             image: FileImage(
-                    //               File(selectedImage!.path),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       )
-                    //     : CircleAvatar(
-                    //         foregroundColor: AppColors.backgroundColor,
-                    //         radius: 80.r,
-                    //         child: SvgPicture.asset(
-                    //           AppImages.defaultUser,
-                    //         ),
-                    //       ),
                   ),
                 )
               ],
@@ -205,36 +173,4 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       );
-
-  getGalleryImage() async {
-    final XFile? temporary =
-        await imagePicker.pickImage(source: ImageSource.gallery);
-
-    if (temporary != null) {
-      final croppedImage = await cropImage(temporary);
-
-      setState(() {
-        selectedImage = XFile(croppedImage.path);
-      });
-    }
-  }
-
-  getCameraImage() async {
-    final XFile? temporary =
-        await imagePicker.pickImage(source: ImageSource.camera);
-
-    if (temporary != null) {
-      final croppedImage = await cropImage(temporary);
-      setState(() {
-        selectedImage = XFile(croppedImage.path);
-      });
-    }
-  }
-
-  cropImage(XFile image) async {
-    return await ImageCropper()
-        .cropImage(sourcePath: image.path, aspectRatioPresets: [
-      CropAspectRatioPreset.square,
-    ]);
-  }
 }
